@@ -19,11 +19,15 @@ public class Niveau {
 	 */
 	public Niveau(String chemin) {
 
-		chargerNiveau(chemin);
+
 	}
 
 	private void chargerNiveau(String chemin) {
-		Utils.lireFichier(chemin);
+
+		String fichierChargé= Utils.lireFichier(chemin);
+
+		whil
+
 
 	}
 
@@ -71,14 +75,19 @@ public class Niveau {
 	 */
 	public boolean estIntermediaire() {return false;}
 
+
 	/**
-	 *
+	 *Métohde qui échange la position de deux objets selon la position souceXY et destinationXY
 	 * @param sourceX
 	 * @param sourceY
 	 * @param destinationX
 	 * @param destinationY
+	 *   //car il ne faut pas qu'elle soit accessible en dehors de sa classe
 	 */
   private void echanger(int sourceX, int sourceY, int destinationX, int destinationY){
+	  ObjetPlateau objetPlateau = this.plateau[sourceX][sourceY];
+	  this.plateau[sourceX][sourceY]=this.plateau[destinationX][destinationY];
+	  this.plateau[destinationX][destinationY]=objetPlateau;
 
   }
 

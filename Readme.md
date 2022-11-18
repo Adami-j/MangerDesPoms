@@ -1,0 +1,1 @@
+car il ne faut pas qu'elle soit accessible en dehors de sa classe
