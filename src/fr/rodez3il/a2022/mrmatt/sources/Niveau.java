@@ -23,14 +23,11 @@ public class Niveau {
 	}
 
 	private void chargerNiveau(String chemin) {
+		Utils.lireFichier(chemin);
+
 	}
 
-	/**
-	 * Javadoc à réaliser...
-	 */
-	private void echanger(int sourceX, int sourceY, int destinationX, int destinationY) {
-    // ........
-	}
+
 
 	/**
 	 * Produit une sortie du niveau sur la sortie standard.
@@ -74,8 +71,16 @@ public class Niveau {
 	 */
 	public boolean estIntermediaire() {return false;}
 
-  // Code pour empêcher la compilation
+	/**
+	 *
+	 * @param sourceX
+	 * @param sourceY
+	 * @param destinationX
+	 * @param destinationY
+	 */
+  private void echanger(int sourceX, int sourceY, int destinationX, int destinationY){
 
+  }
 
 
 }

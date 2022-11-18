@@ -67,5 +67,7 @@ public abstract class ObjetPlateau {
 		return false;
 	}
 
-	public void visiterPlateauCalculEtatSuivant(Niveau niveau, int x, int y){}
+	public void visiterPlateauCalculEtatSuivant(Niveau niveau, int x, int y){
+
+	}
 }
