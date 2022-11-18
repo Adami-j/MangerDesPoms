@@ -61,6 +61,7 @@ public class Niveau {
 
   // Joue la commande C passée en paramètres
 	public boolean jouer(Commande c) {
+		return false;
 	}
 
 	/**

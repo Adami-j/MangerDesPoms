@@ -3,6 +3,7 @@ package fr.rodez3il.a2022.mrmatt.sources.objets;
 import fr.rodez3il.a2022.mrmatt.sources.Niveau;
 
 public abstract class ObjetPlateau {
+
 	/**
 	 * Fabrique des objets
 	 * @param chr le symbole à produire
@@ -32,5 +33,39 @@ public abstract class ObjetPlateau {
 		}
 		return nouveau;
 	}
+
+
 	/// Autres fonctions à réaliser ici...
+
+	/**
+	 * envoie le caractère correspondant à l’objet
+	 *
+	 */
+	public abstract char afficher();
+
+	/**
+	 * renvoie si l’objet est vide
+	 * @return boolean
+	 */
+	public boolean estVide(){
+		return false;
+	}
+
+	/**
+	 * renvoie si l’objet est marchable
+	 * @return
+	 */
+	public boolean estMarchable(){
+		return false;
+	}
+
+	public boolean estPoussable(){
+		return false;
+	}
+
+	public boolean estGlissant(){
+		return false;
+	}
+
+	public void visiterPlateauCalculEtatSuivant(Niveau niveau, int x, int y){}
 }
