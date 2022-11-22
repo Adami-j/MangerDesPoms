@@ -52,7 +52,7 @@ public class Utils {
 
 			return stringBuilder.toString();
 		} catch (IOException e) {
-			return "";
+			return "pas trouvé";
 		} finally {
 			// Fermeture du Reader
 			try {
