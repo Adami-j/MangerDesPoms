@@ -1,5 +1,6 @@
 package fr.rodez3il.a2022.mrmatt.tests;
 
+import fr.rodez3il.a2022.mrmatt.sources.Commande;
 import fr.rodez3il.a2022.mrmatt.sources.Niveau;
 import jdk.jfr.StackTrace;
 
@@ -19,7 +20,20 @@ public class TestNiveau {
 
     }
 
+    public static void testJeu(){
+        Niveau n = new Niveau("src/niveaux/AppleTown/1-the-market.txt");
+        n.afficher();
+        System.out.println(  n.getPositionJoueurX()+" "+
+        n.getPositionJoueurY());
+        n.jouer(Commande.BAS);
+        System.out.println(  n.getPositionJoueurX()+" "+
+                n.getPositionJoueurY());
+        n.afficher();
+    }
+
     public static void main(String[] args) {
-        test();
+
+        testJeu();
+
     }
 }

@@ -13,7 +13,8 @@ public class Niveau {
 	private int nombreDeplacements;
 	private static int TAILLE_HORIZONTALE=0;
 	private static int TAILLE_VERTICALE=0;
-	
+
+
   // Autres attributs que vous jugerez nécessaires...
 
 	/**
@@ -34,8 +35,17 @@ public class Niveau {
 	public ObjetPlateau[][] getObjetPlateau(){
 		return this.plateau;
 	}
+
 	public void setObjetPlateau(ObjetPlateau[][] plateau){
 		this.plateau = plateau;
+	}
+
+	public int getPositionJoueurX() {
+		return positionJoueurX;
+	}
+
+	public int getPositionJoueurY() {
+		return positionJoueurY;
 	}
 
 	private String[] recupererListeLigneJeu(String chemin){
@@ -56,7 +66,6 @@ public class Niveau {
 			if (compteur>1 && !charactGame.startsWith(" ")){
 
 				splitedNiveauWithoutNumbers[x]=charactGame;
-				System.out.println(splitedNiveauWithoutNumbers[x]);
 				x++;
 			}
 			compteur++;
@@ -79,15 +88,15 @@ public class Niveau {
 		 String[] splitedNiveauWithoutNumbers = new String[TAILLE_VERTICALE];
 		 splitedNiveauWithoutNumbers = this.recupererListeLigneJeu(chemin);
 
-		this.setObjetPlateau(new ObjetPlateau[TAILLE_VERTICALE][TAILLE_HORIZONTALE-1]);
+		this.setObjetPlateau(new ObjetPlateau[TAILLE_VERTICALE][TAILLE_HORIZONTALE]);
 		ObjetPlateau[][] plateau = this.getObjetPlateau();
 
 		int compteurOccurenceSplitedNiveau = 0;
 		for(int xVertical=0; xVertical<TAILLE_VERTICALE; xVertical++){
 
-			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE-1; yHorizontal++){
+			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE; yHorizontal++){
 
-				System.out.println(xVertical);
+
 				char caractereCourrant = splitedNiveauWithoutNumbers[xVertical].charAt(compteurOccurenceSplitedNiveau);
 
 				ObjetPlateau objetCourrant;
@@ -96,8 +105,8 @@ public class Niveau {
 						||caractereCourrant=='-'||caractereCourrant=='#'||caractereCourrant==' '){
 					plateau[xVertical][yHorizontal]= ObjetPlateau.depuisCaractere(caractereCourrant);
 					if(caractereCourrant=='H'){
-						this.positionJoueurX=yHorizontal;
-						this.positionJoueurY=xVertical;
+						this.positionJoueurX=xVertical;
+						this.positionJoueurY=yHorizontal;
 					}
 
 					if(caractereCourrant=='+'){
@@ -124,7 +133,7 @@ public class Niveau {
 
 		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++){
 			String ligne ="";
-			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE-1; yHorizontal++) {
+			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE; yHorizontal++) {
 
 					ligne+=this.getObjetPlateau()[xVertical][yHorizontal].afficher();
 			}
@@ -139,7 +148,9 @@ public class Niveau {
 	 * @return
 	 */
 	private Boolean booleandeplacementPossible(int dx, int dy){
-		if (dx<=17&&dx>=0&&dy<=30&&dy>=0&&this.getObjetPlateau()[dx][dx].estMarchable()){
+		System.out.println(dx);
+		System.out.println(this.getObjetPlateau()[dx][dy-1]);
+		if (dx<=17&&dx>=0&&dy<=30&&dy>=0&&this.getObjetPlateau()[dx][dy].estMarchable()){
 			return true;
 		}
 		return false;
@@ -168,7 +179,17 @@ public class Niveau {
 	 * @author 
 	 */
 	public void etatSuivant() {
-    // TODO
+		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++){
+			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE; yHorizontal++) {
+				if(this.getObjetPlateau()[xVertical][yHorizontal].afficher()=='*'){
+
+				}
+
+			}
+		}
+
+
+
 	}
 
 
@@ -181,7 +202,7 @@ public class Niveau {
 
 		switch (c){
 			case QUITTER:
-				break;
+				return false;
 			case ANNULER:
 				break;
 			case HAUT:
@@ -193,6 +214,7 @@ public class Niveau {
 			case BAS:
 				if(this.booleandeplacementPossible(this.positionJoueurX+1,this.positionJoueurY)){
 					this.deplacer(this.positionJoueurX+1,this.positionJoueurY);
+					System.out.println("coucou");
 					return true;
 				}
 				break;
