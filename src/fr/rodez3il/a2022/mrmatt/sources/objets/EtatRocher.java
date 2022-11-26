@@ -2,9 +2,9 @@ package fr.rodez3il.a2022.mrmatt.sources.objets;
 
 /**
  * Les deux états des rochers.
- * @author AUTEUR
+ * @author Julien adami
  *
  */
 public enum EtatRocher {
-  // À FAIRE
+  CHUTE,FIXE
 }
