@@ -179,12 +179,25 @@ public class Niveau {
 			case CHUTE:
 				if(x==this.getObjetPlateau().length-1){
 					r.setEtatRocher(EtatRocher.FIXE);
+					break;
 				}
+
 				if(this.getObjetPlateau()[x+1][y].estVide()){
 					if(y==this.positionJoueurY && x+1 == this.positionJoueurX){
-
+						this.perdu=true;
+						break;
 					}
 					this.echanger(x,y,x+1,y);
+				}else if(this.getObjetPlateau()[x+1][y].estGlissant()){
+					if(x>0&&this.getObjetPlateau()[x][y-1].estGlissant()&&this.getObjetPlateau()[x+1][y-1].estVide()){
+						this.echanger(x,y,x+1,y-1);
+					}else if(y>0&&this.getObjetPlateau()[x][y+1].estGlissant()&&this.getObjetPlateau()[x+1][y+1].estVide()){
+						this.echanger(x,y,x+1,y+1);
+					}
+					else {
+						r.setEtatRocher(EtatRocher.FIXE);
+					}
+
 				}
 
 				break;
@@ -198,7 +211,7 @@ public class Niveau {
 
 	}
 	public void etatSuivantVisiteur(Pomme p,int x, int y){
-
+		nombrePommesRestant++;
 	}
 
 
