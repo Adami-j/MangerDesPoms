@@ -3,6 +3,11 @@ package fr.rodez3il.a2022.mrmatt.sources.objets;
 import fr.rodez3il.a2022.mrmatt.sources.Niveau;
 
 public class Rocher extends ObjetPlateau {
+    private EtatRocher etatRocher=EtatRocher.FIXE;
+    public Rocher() {
+        this.etatRocher = etatRocher;
+    }
+
 
 
     @Override
@@ -11,6 +16,13 @@ public class Rocher extends ObjetPlateau {
         return '*';
     }
 
+    public EtatRocher getEtatRocher() {
+        return etatRocher;
+    }
+
+    public void setEtatRocher(EtatRocher etatRocher) {
+        this.etatRocher = etatRocher;
+    }
 
     @Override
     public boolean estPoussable(){
