@@ -60,19 +60,6 @@ public class Jeu {
 		System.out.println("- q : pour quitter");
 		System.out.println("- 0 : pour annuler le dernier déplacement");
 		// Boucle d'attente de jeu
-		Commande commande = Commande.BAS;
-		plateau.jouer(commande);
-		plateau.afficher();
-		System.out.println("     \n");
-		System.out.println(plateau.getPositionJoueurX() +" "+ plateau.getPositionJoueurY());;
-		plateau.jouer(commande);
-		plateau.jouer(commande);
-		plateau.jouer(commande);
-		plateau.jouer(Commande.GAUCHE);
-		plateau.jouer(Commande.DROITE);
-
-
-		plateau.afficher();
 		while (plateau.enCours()) {
 			// Affiche le plateau et récupère la commande du joueur
 			plateau.afficher();
