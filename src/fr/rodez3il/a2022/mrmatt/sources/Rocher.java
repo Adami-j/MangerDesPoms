@@ -41,6 +41,4 @@ public class Rocher extends ObjetPlateau {
         plateau.etatSuivantVisiteur(this, x, y);
     }
 
-
-
 }

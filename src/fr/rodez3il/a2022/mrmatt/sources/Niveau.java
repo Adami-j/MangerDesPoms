@@ -1,6 +1,8 @@
 package fr.rodez3il.a2022.mrmatt.sources;
 
+import fr.rodez3il.a2022.mrmatt.sources.objets.EtatRocher;
 import fr.rodez3il.a2022.mrmatt.sources.objets.ObjetPlateau;
+import fr.rodez3il.a2022.mrmatt.sources.objets.Pomme;
 
 public class Niveau {
 	
@@ -8,11 +10,14 @@ public class Niveau {
 	private ObjetPlateau[][] plateau;
 	// Position du joueur
 	private int nombrePommes;
+	private int nombrePommesRestant;
 	private int positionJoueurX;
 	private int positionJoueurY;
 	private int nombreDeplacements;
 	private static int TAILLE_HORIZONTALE=0;
 	private static int TAILLE_VERTICALE=0;
+	private boolean gagner = false;
+	private boolean perdu = false;
 
 
   // Autres attributs que vous jugerez nécessaires...
@@ -148,8 +153,7 @@ public class Niveau {
 	 * @return
 	 */
 	private Boolean booleandeplacementPossible(int dx, int dy){
-		System.out.println(dx);
-		System.out.println(this.getObjetPlateau()[dx][dy-1]);
+
 		if (dx<=17&&dx>=0&&dy<=30&&dy>=0&&this.getObjetPlateau()[dx][dy].estMarchable()){
 			return true;
 		}
@@ -171,7 +175,32 @@ public class Niveau {
   // TODO : patron visiteur du Rocher...
 	public void etatSuivantVisiteur(Rocher r, int x, int y) {
 
+		switch (r.getEtatRocher()){
+			case CHUTE:
+				if(x==this.getObjetPlateau().length-1){
+					r.setEtatRocher(EtatRocher.FIXE);
+				}
+				if(this.getObjetPlateau()[x+1][y].estVide()){
+					if(y==this.positionJoueurY && x+1 == this.positionJoueurX){
+
+					}
+					this.echanger(x,y,x+1,y);
+				}
+
+				break;
+			case FIXE:
+				if(this.getObjetPlateau()[x][y].estVide()){
+					r.setEtatRocher(EtatRocher.CHUTE);
+				}
+				break;
+
+		}
+
 	}
+	public void etatSuivantVisiteur(Pomme p,int x, int y){
+
+	}
+
 
 	/**
 	 * Calcule l'état suivant du niveau.
@@ -182,9 +211,8 @@ public class Niveau {
 		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++){
 			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE; yHorizontal++) {
 				if(this.getObjetPlateau()[xVertical][yHorizontal].afficher()=='*'){
-
+					this.getObjetPlateau()[xVertical][yHorizontal].visiterPlateauCalculEtatSuivant(this,xVertical,yHorizontal);
 				}
-
 			}
 		}
 
@@ -210,7 +238,9 @@ public class Niveau {
 					this.deplacer(this.positionJoueurX-1,this.positionJoueurY);
 					return true;
 				}
+				c=Commande.ERREUR;
 				break;
+
 			case BAS:
 				if(this.booleandeplacementPossible(this.positionJoueurX+1,this.positionJoueurY)){
 					this.deplacer(this.positionJoueurX+1,this.positionJoueurY);
@@ -220,7 +250,7 @@ public class Niveau {
 				break;
 			case GAUCHE:
 				if(this.booleandeplacementPossible(this.positionJoueurX,this.positionJoueurY-1)){
-					this.deplacer(this.positionJoueurX+1,this.positionJoueurY-1);
+					this.deplacer(this.positionJoueurX,this.positionJoueurY-1);
 					return true;
 				}
 				break;
@@ -242,11 +272,21 @@ public class Niveau {
 	 * Affiche l'état final (gagné ou perdu) une fois le jeu terminé.
 	 */
 	public void afficherEtatFinal() {
+		if(this.nombrePommesRestant==0){
+			this.gagner = true;
+		}
+		if(this.gagner){
+			System.out.println("Bravo c'est gagné");
+		}else {
+
+		}
+
 	}
 
 	/**
 	 */
 	public boolean estIntermediaire() {return false;}
+
 
 
 	/**
