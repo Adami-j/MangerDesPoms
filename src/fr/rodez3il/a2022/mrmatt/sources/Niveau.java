@@ -3,19 +3,21 @@ package fr.rodez3il.a2022.mrmatt.sources;
 import fr.rodez3il.a2022.mrmatt.sources.objets.EtatRocher;
 import fr.rodez3il.a2022.mrmatt.sources.objets.ObjetPlateau;
 import fr.rodez3il.a2022.mrmatt.sources.objets.Pomme;
+import fr.rodez3il.a2022.mrmatt.sources.objets.Vide;
 
 public class Niveau {
 	
 	// Les objets sur le plateau du niveau
 	private ObjetPlateau[][] plateau;
 	// Position du joueur
-	private int nombrePommes;
+
 	private int nombrePommesRestant;
 	private int positionJoueurX;
 	private int positionJoueurY;
 	private int nombreDeplacements;
 	private static int TAILLE_HORIZONTALE=0;
 	private static int TAILLE_VERTICALE=0;
+	private boolean estIntermediaire=false;
 	private boolean gagner = false;
 	private boolean perdu = false;
 
@@ -28,7 +30,7 @@ public class Niveau {
 	 * @author .............
 	 */
 	public Niveau(String chemin) {
-		this.nombrePommes=0;
+		this.nombrePommesRestant=0;
 		this.nombreDeplacements=0;
 		this.positionJoueurX=0;
 		this.positionJoueurY=0;
@@ -51,6 +53,14 @@ public class Niveau {
 
 	public int getPositionJoueurY() {
 		return positionJoueurY;
+	}
+
+	public boolean isEstIntermediaire() {
+		return estIntermediaire;
+	}
+
+	public void setEstIntermediaire(boolean estIntermediaire) {
+		this.estIntermediaire = estIntermediaire;
 	}
 
 	private String[] recupererListeLigneJeu(String chemin){
@@ -90,8 +100,7 @@ public class Niveau {
 	 */
 	private void chargerNiveau(String chemin) {
 
-		 String[] splitedNiveauWithoutNumbers = new String[TAILLE_VERTICALE];
-		 splitedNiveauWithoutNumbers = this.recupererListeLigneJeu(chemin);
+		 String[] splitedNiveauWithoutNumbers = this.recupererListeLigneJeu(chemin);
 
 		this.setObjetPlateau(new ObjetPlateau[TAILLE_VERTICALE][TAILLE_HORIZONTALE]);
 		ObjetPlateau[][] plateau = this.getObjetPlateau();
@@ -115,7 +124,7 @@ public class Niveau {
 					}
 
 					if(caractereCourrant=='+'){
-						this.nombrePommes++;
+						this.nombrePommesRestant++;
 					}
 				}
 
@@ -144,6 +153,8 @@ public class Niveau {
 			}
 			System.out.println(ligne);
 		}
+
+		System.out.println("Il reste "+this.nombrePommesRestant+" pommes en jeu et vous avez réalisé "+this.nombreDeplacements+" dépalcements.");
 	}
 
 	/**
@@ -205,13 +216,22 @@ public class Niveau {
 				if(this.getObjetPlateau()[x][y].estVide()){
 					r.setEtatRocher(EtatRocher.CHUTE);
 				}
-				break;
 
+				break;
+		}
+		if(r.getEtatRocher()==EtatRocher.CHUTE){
+			this.setEstIntermediaire(true);
 		}
 
 	}
+
+
 	public void etatSuivantVisiteur(Pomme p,int x, int y){
-		nombrePommesRestant++;
+		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++) {
+			for (int yHorizontal = 0; yHorizontal < TAILLE_HORIZONTALE; yHorizontal++) {
+				nombrePommesRestant++;
+			}
+		}
 	}
 
 
@@ -221,6 +241,9 @@ public class Niveau {
 	 * @author 
 	 */
 	public void etatSuivant() {
+
+		this.setEstIntermediaire(false);
+
 		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++){
 			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE; yHorizontal++) {
 				if(this.getObjetPlateau()[xVertical][yHorizontal].afficher()=='*'){
@@ -229,26 +252,25 @@ public class Niveau {
 			}
 		}
 
+		this.gagner = this.nombrePommesRestant ==0;
 
 
 	}
-
-
-  // Illustrez les Javadocs manquantes lorsque vous coderez ces méthodes !
-  
-	public boolean enCours() {return false;}
 
   // Joue la commande C passée en paramètres
 	public boolean jouer(Commande c) {
 
 		switch (c){
 			case QUITTER:
-				return false;
+				this.perdu = true;
+				 break;
 			case ANNULER:
+				this.perdu = true;
 				break;
 			case HAUT:
 				if(this.booleandeplacementPossible(this.positionJoueurX-1,this.positionJoueurY)){
 					this.deplacer(this.positionJoueurX-1,this.positionJoueurY);
+					this.nombreDeplacements++;
 					return true;
 				}
 				c=Commande.ERREUR;
@@ -257,19 +279,21 @@ public class Niveau {
 			case BAS:
 				if(this.booleandeplacementPossible(this.positionJoueurX+1,this.positionJoueurY)){
 					this.deplacer(this.positionJoueurX+1,this.positionJoueurY);
-					System.out.println("coucou");
+					this.nombreDeplacements++;
 					return true;
 				}
 				break;
 			case GAUCHE:
 				if(this.booleandeplacementPossible(this.positionJoueurX,this.positionJoueurY-1)){
 					this.deplacer(this.positionJoueurX,this.positionJoueurY-1);
+					this.nombreDeplacements++;
 					return true;
 				}
 				break;
 			case DROITE:
 				if(this.booleandeplacementPossible(this.positionJoueurX,this.positionJoueurY+1)){
 					this.deplacer(this.positionJoueurX,this.positionJoueurY+1);
+					this.nombreDeplacements++;
 					return true;
 				}
 				break;
@@ -291,15 +315,17 @@ public class Niveau {
 		if(this.gagner){
 			System.out.println("Bravo c'est gagné");
 		}else {
-
+			System.out.println("Vous avez perdu");
 		}
 
 	}
 
 	/**
 	 */
-	public boolean estIntermediaire() {return false;}
+	public boolean estIntermediaire() {
 
+		return this.isEstIntermediaire()&&this.enCours();
+	}
 
 
 	/**
@@ -312,9 +338,25 @@ public class Niveau {
 	 */
   private void echanger(int sourceX, int sourceY, int destinationX, int destinationY){
 	  ObjetPlateau objetPlateau = this.plateau[sourceX][sourceY];
-	  this.plateau[sourceX][sourceY]=this.plateau[destinationX][destinationY];
-	  this.plateau[destinationX][destinationY]=objetPlateau;
+	  if(this.getObjetPlateau()[destinationX][destinationY].estMarchable()&&
+			  !this.getObjetPlateau()[destinationX][destinationY].estVide()){
+		  this.plateau[sourceX][sourceY]=new Vide();
+		  this.plateau[destinationX][destinationY]=objetPlateau;
+		  if(this.getObjetPlateau()[destinationX][destinationY].afficher()=='+'){
+			  this.plateau[sourceX][sourceY]=new Vide();
+			  this.plateau[destinationX][destinationY]=objetPlateau;
+			  this.nombrePommesRestant--;
+		  }
+	  }else{
+
+		  this.plateau[sourceX][sourceY]=this.plateau[destinationX][destinationY];
+		  this.plateau[destinationX][destinationY]=objetPlateau;
+	  }
+
 
   }
 
+	public boolean enCours() {
+		return !this.perdu&&!this.gagner;
+	}
 }
