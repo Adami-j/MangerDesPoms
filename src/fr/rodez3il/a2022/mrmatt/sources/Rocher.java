@@ -36,9 +36,6 @@ public class Rocher extends ObjetPlateau {
         return true;
     }
 
-    @Override
-    public void visiterPlateauCalculEtatSuivant(Niveau plateau, int x, int y) {
-        plateau.etatSuivantVisiteur(this, x, y);
-    }
+
 
 }
