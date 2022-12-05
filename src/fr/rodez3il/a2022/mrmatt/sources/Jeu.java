@@ -47,13 +47,14 @@ public class Jeu {
 	 */
 	public static void main(String[] args) throws IOException {
 		// Le chemin du plateau à charger s'il n'y a aucun argument
-		String chemin = "niveaux/StartHere/1-french-garden.txt";
+		String chemin = "src/niveaux/AppleTown/1-the-market.txt";
 		// vous pouvez changer ici le nom de fichier si vous le souhaitez.
 		if (args.length > 0) {
 			chemin = args[0];
 		}
 		// Création du plateau depuis le chemin
 		Niveau plateau = new Niveau(chemin);
+
 		System.out.println("Bienvenue dans Mr Matt version ASCII !");
 		System.out.println("Commandes :");
 		System.out.println("- 8, 4, 6, 2 : pour vous déplacer dans la direction souhaitée");
@@ -65,6 +66,7 @@ public class Jeu {
 			plateau.afficher();
 			System.out.println("Entrez une commande :");
 			Commande c = lireCommande();
+
 			if (plateau.jouer(c)) {
 				// Cette condition ne s'exécute que
 				// si la commande du joueur modifie
@@ -73,7 +75,7 @@ public class Jeu {
 				while (plateau.estIntermediaire()) {
 					// Tant qu'il y a un état intermédiaire,
 					// on fait la mise à jour nécessaire.
-					plateau.afficher();
+
 					// Petite attente pour animation
 					Utils.attendre(500);
 					plateau.etatSuivant();
