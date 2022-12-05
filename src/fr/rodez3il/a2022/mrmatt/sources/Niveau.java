@@ -66,6 +66,14 @@ public class Niveau {
 		this.estIntermediaire = estIntermediaire;
 	}
 
+	public boolean estPerdu(){
+		return this.perdu;
+	}
+
+	public boolean estGagne(){
+		return this.gagner;
+	}
+
 	/**
 	 *Fonction split qui retourne un tableau de string spliter pour chaque retour à la ligne
 	 * sans les deux valeurs de taille pour le plateau
@@ -170,8 +178,8 @@ public class Niveau {
 
 	/**
 	 *Retourne vrai si le déplacement est possible sinon faux
-	 * @param dx
-	 * @param dy
+	 * @param dx pos de l'objet ou le joeur de déplace X
+	 * @param dy pos de l'objet ou le joeur de déplace Y
 	 * @return boolean
 	 * @author ADAMIJULIEN
 	 */
