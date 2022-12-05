@@ -31,6 +31,10 @@ public class TestNiveau {
         n.afficher();
     }
 
+    public static void testJeu2(){
+
+    }
+
     public static void main(String[] args) {
 
         testJeu();
