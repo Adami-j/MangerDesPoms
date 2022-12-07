@@ -6,6 +6,9 @@ import fr.rodez3il.a2022.mrmatt.sources.objets.Pomme;
 import fr.rodez3il.a2022.mrmatt.sources.objets.Vide;
 import fr.rodez3il.a2022.mrmatt.sources.objets.EtatRocher;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Niveau {
 	
 	// Les objets sur le plateau du niveau
@@ -198,6 +201,10 @@ public class Niveau {
 	 * @author ADAMIJULIEN
 	 */
 	public void deplacer(int deltaX, int deltaY){
+
+		if((deltaY==this.positionJoueurY-1||deltaY==this.positionJoueurY+1)&&this.positionJoueurX==deltaX&&this.getObjetPlateau()[deltaX][deltaY].estMarchable()){
+
+		}
 		this.echanger(this.positionJoueurX,positionJoueurY,deltaX,deltaY);
 		this.positionJoueurX = deltaX;
 		this.positionJoueurY = deltaY;
@@ -216,12 +223,10 @@ public class Niveau {
 
 		switch (r.getEtatRocher()){
 			case CHUTE:
-				System.out.println(r.afficher());
 				if(x==this.getObjetPlateau().length-1){
 					r.setEtatRocher(EtatRocher.FIXE);
 					break;
 				}
-
 				if(this.getObjetPlateau()[x+1][y].estVide()){
 					if(y==this.positionJoueurY && x+1< this.positionJoueurX){
 						this.echanger(x,y,x+1,y);
@@ -229,10 +234,12 @@ public class Niveau {
 						break;
 					}
 					this.echanger(x,y,x+1,y);
-				}else if(this.getObjetPlateau()[x+1][y].estGlissant()){
-					if(x>0&&this.getObjetPlateau()[x][y-1].estGlissant()&&this.getObjetPlateau()[x+1][y-1].estVide()){
+
+				}
+				if(this.getObjetPlateau()[x+1][y].estGlissant()){
+					if(x>0&&this.getObjetPlateau()[x+1][y-1].estGlissant()&&this.getObjetPlateau()[x+1][y-1].estVide()){
 						this.echanger(x,y,x+1,y-1);
-					}else if(y>0&&this.getObjetPlateau()[x][y+1].estGlissant()&&this.getObjetPlateau()[x+1][y+1].estVide()){
+					}else if(y>0&&this.getObjetPlateau()[x+1][y+1].estGlissant()&&this.getObjetPlateau()[x+1][y+1].estVide()){
 						this.echanger(x,y,x+1,y+1);
 					}
 					else {
@@ -266,11 +273,7 @@ public class Niveau {
 	 * @author ADAMIJULIEN
 	 */
 	public void etatSuivantVisiteur(Pomme p,int x, int y){
-		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++) {
-			for (int yHorizontal = 0; yHorizontal < TAILLE_HORIZONTALE; yHorizontal++) {
 				nombrePommesRestant+=1;
-			}
-		}
 	}
 
 
@@ -282,7 +285,7 @@ public class Niveau {
 	public void etatSuivant() {
 
 		this.setEstIntermediaire(false);
-
+		this.nombrePommesRestant=0;
 		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++){
 			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE-1; yHorizontal++) {
 
@@ -395,7 +398,6 @@ public class Niveau {
 		  if(this.getObjetPlateau()[destinationX][destinationY].afficher()=='+'){
 			  this.plateau[sourceX][sourceY]=new Vide();
 			  this.plateau[destinationX][destinationY]=objetPlateau;
-			  this.nombrePommesRestant--;
 		  }
 		  this.plateau[sourceX][sourceY]=new Vide();
 		  this.plateau[destinationX][destinationY]=objetPlateau;
