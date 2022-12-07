@@ -27,8 +27,10 @@ public class Niveau {
 
 	/**
 	 * Constructeur public : crée un niveau depuis un fichier.
-	 * @param chemin .....
-	 * @author .............
+	 * mise à 0 des param pommes restantes, nombredeplacements et la position x y à 0
+	 * chargement du niveau avec le param chemin
+	 * @param chemin lien vers le fichier utiliser pourle jeu
+	 * @author JULIENADAMI
 	 */
 	public Niveau(String chemin) {
 		this.nombrePommesRestant=0;
@@ -64,10 +66,21 @@ public class Niveau {
 		this.estIntermediaire = estIntermediaire;
 	}
 
+	public boolean estPerdu(){
+		return this.perdu;
+	}
+
+	public boolean estGagne(){
+		return this.gagner;
+	}
+
 	/**
+	 *Fonction split qui retourne un tableau de string spliter pour chaque retour à la ligne
+	 * sans les deux valeurs de taille pour le plateau
+	 * initialisation de la valeur de la taille horizontale et vertiale du plateau
 	 *
 	 * @param chemin
-	 * @return
+	 * @return String[]
 	 */
 	private String[] recupererListeLigneJeu(String chemin){
 		String niveauBrut = Utils.lireFichier(chemin);
@@ -103,6 +116,7 @@ public class Niveau {
 	 * ligne par ligne du fichier on obtient le terrain
 	 * enfin on assigne chaque caractère à un emplacement dans le tableau du terrain
 	 * @param chemin
+	 * @author JULIENADAMI
 	 */
 	private void chargerNiveau(String chemin) {
 
@@ -145,7 +159,8 @@ public class Niveau {
 
 	/**
 	 * Produit une sortie du niveau sur la sortie standard.
-	 * ................
+	 * affichage du nombre de pommes restant et du nombre de déplacements
+	 * @author ADAMIJULIEN
 	 */
 	public void afficher() {
 
@@ -162,10 +177,11 @@ public class Niveau {
 	}
 
 	/**
-	 *
-	 * @param dx
-	 * @param dy
-	 * @return
+	 *Retourne vrai si le déplacement est possible sinon faux
+	 * @param dx pos de l'objet ou le joeur de déplace X
+	 * @param dy pos de l'objet ou le joeur de déplace Y
+	 * @return boolean
+	 * @author ADAMIJULIEN
 	 */
 	private Boolean booleandeplacementPossible(int dx, int dy){
 
@@ -176,9 +192,10 @@ public class Niveau {
 	}
 
 	/**
-	 *
+	 *échange l'objet joueur avec l'objet défini à la position x,y du plateau
 	 * @param deltaX
 	 * @param deltaY
+	 * @author ADAMIJULIEN
 	 */
 	public void deplacer(int deltaX, int deltaY){
 		this.echanger(this.positionJoueurX,positionJoueurY,deltaX,deltaY);
@@ -187,7 +204,14 @@ public class Niveau {
 	}
 
 
-  // TODO : patron visiteur du Rocher...
+	/**
+	 * Traite l'état suivant, si le rocher est à FIXE, on vérifie que sous lui, il n'y a rien
+	 * si oui il passe à l'état CHUTE et on réalise les traitements est vide, est glissant
+	 * @param r rocher
+	 * @param x position x
+	 * @param y position y
+	 * @author ADAMIJULIEN
+	 */
 	public void etatSuivantVisiteur(Rocher r, int x, int y) {
 
 		switch (r.getEtatRocher()){
@@ -234,10 +258,17 @@ public class Niveau {
 	}
 
 
+	/**
+	 * balaie le plateau et ajoute une pomme si l'instance de l'objet est Pomme
+	 * @param p Pomme
+	 * @param x position x
+	 * @param y position y
+	 * @author ADAMIJULIEN
+	 */
 	public void etatSuivantVisiteur(Pomme p,int x, int y){
 		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++) {
 			for (int yHorizontal = 0; yHorizontal < TAILLE_HORIZONTALE; yHorizontal++) {
-				nombrePommesRestant++;
+				nombrePommesRestant+=1;
 			}
 		}
 	}
@@ -245,8 +276,8 @@ public class Niveau {
 
 	/**
 	 * Calcule l'état suivant du niveau.
-	 * ........
-	 * @author 
+	 * balaie le plateau et applique la méthode
+	 * @author ADAMIJULIEN
 	 */
 	public void etatSuivant() {
 
@@ -254,11 +285,11 @@ public class Niveau {
 
 		for(int xVertical=0; xVertical<=TAILLE_VERTICALE-1; xVertical++){
 			for(int yHorizontal=0; yHorizontal<TAILLE_HORIZONTALE-1; yHorizontal++) {
-				if(this.getObjetPlateau()[xVertical][yHorizontal].afficher()=='*'){
+
 					this.getObjetPlateau()[xVertical][yHorizontal].visiterPlateauCalculEtatSuivant
 							(this,xVertical,yHorizontal);
 
-				}
+
 			}
 		}
 
@@ -268,6 +299,13 @@ public class Niveau {
 	}
 
   // Joue la commande C passée en paramètres
+
+	/**
+	 * retourne vrai si la commande est correscte sinon retourne faux
+	 * @param c
+	 * @return boolean
+	 * @author ADAMIJULIEN
+	 */
 	public boolean jouer(Commande c) {
 
 		switch (c){
@@ -317,6 +355,7 @@ public class Niveau {
 
 	/**
 	 * Affiche l'état final (gagné ou perdu) une fois le jeu terminé.
+	 *  @author Julien ADAMI
 	 */
 	public void afficherEtatFinal() {
 		if(this.nombrePommesRestant==0){
@@ -331,6 +370,9 @@ public class Niveau {
 	}
 
 	/**
+	 * renvoie vrai si le jeu est en état intermédiaire et si encours renvoie true
+	 * @return boolean estIntermediaire vrai?
+	 *  @author Julien ADAMI
 	 */
 	public boolean estIntermediaire() {
 
