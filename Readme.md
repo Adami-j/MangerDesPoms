@@ -27,3 +27,6 @@ car on va l'utiliser dans la classe jeu, il faut quelle soit publique
  - projet intéressant avec l'utilisation des tableaux sans structure de données type liste etc, par contre, toujours compliqué avec les tableaux et les index / j'ai personnellement du débloquer pas mal de camarades sur ce sujet.
  - projet évolutif avec le solveur qui suit comme deuxième mini projet.
  - vivement les list et tout le reste :)
+
+### Environnement de dev où le projet compile
+ - INTELIJ IDEA en
