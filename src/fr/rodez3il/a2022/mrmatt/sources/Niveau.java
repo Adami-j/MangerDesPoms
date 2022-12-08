@@ -236,10 +236,11 @@ public class Niveau {
 					this.echanger(x,y,x+1,y);
 
 				}
+
 				if(this.getObjetPlateau()[x+1][y].estGlissant()){
-					if(x>0&&this.getObjetPlateau()[x+1][y-1].estGlissant()&&this.getObjetPlateau()[x+1][y-1].estVide()){
+					if(x>0&&this.getObjetPlateau()[x+1][y-1].estVide()){
 						this.echanger(x,y,x+1,y-1);
-					}else if(y>0&&this.getObjetPlateau()[x+1][y+1].estGlissant()&&this.getObjetPlateau()[x+1][y+1].estVide()){
+					}else if(y>0&&this.getObjetPlateau()[x+1][y+1].estVide()){
 						this.echanger(x,y,x+1,y+1);
 					}
 					else {
