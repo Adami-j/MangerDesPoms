@@ -20,7 +20,7 @@ car on va l'utiliser dans la classe jeu, il faut quelle soit publique
 
 # Points non réalisés ou terminés 
 - pousser un rocher (cas non traité)
-- rocher glissant sur les côtés (cas non terminé)
+- annuler le coup ( retour en arrière pas traiter)
 
 # Retours sur le projet :
 

@@ -350,7 +350,7 @@ public class Niveau {
 				}
 				break;
 			case ERREUR:
-				break;
+				return false;
 
 		}
 
@@ -394,7 +394,7 @@ public class Niveau {
 	 */
   private void echanger(int sourceX, int sourceY, int destinationX, int destinationY){
 	  ObjetPlateau objetPlateau = this.plateau[sourceX][sourceY];
-	  if(this.getObjetPlateau()[destinationX][destinationY].estMarchable()&&
+	      if(this.getObjetPlateau()[destinationX][destinationY].estMarchable()&&
 			  !this.getObjetPlateau()[destinationX][destinationY].estVide()){
 		  if(this.getObjetPlateau()[destinationX][destinationY].afficher()=='+'){
 			  this.plateau[sourceX][sourceY]=new Vide();
